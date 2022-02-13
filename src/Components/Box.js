@@ -3,8 +3,9 @@ import {useFrame } from '@react-three/fiber'
 
 const Box = (props) => {
     // This reference will give us direct access to the mesh
-    const mesh = useRef()
     // Set up state for the hovered and active state
+
+    const mesh = useRef()
     const [hovered, setHover] = useState(false)
     const [active, setActive] = useState(false)
     // Subscribe this component to the render-loop, rotate the mesh every frame
@@ -24,7 +25,7 @@ const Box = (props) => {
             }}
             onPointerOut={(event) => setHover(false)}>
             <boxGeometry args={[1, 1, 1]} />
-            <meshStandardMaterial color={hovered ? 'hotpink' : 'orange'} />
+            <meshLambertMaterial color={hovered ? 'hotpink' : 'orange'} />
         </mesh>
     )
 }
