@@ -42,7 +42,6 @@ export const flatOval = (radius, bodyLength, divisionLength) => {
     const hPi = Math.PI * .5;
     const pi = Math.PI;
     const ihPi = Math.PI * 1.5;
-    const tau = Math.PI * 2.;
 
     const arcLeftBottom = arc(lV, radius, pi, hPi, Math.ceil(radius * hPi / divisionLength), 0.);
 
@@ -64,6 +63,7 @@ export const flatOval = (radius, bodyLength, divisionLength) => {
     clayPointArray.push(...arcLeftTop);
 
     console.log(clayPointArray);
+    clayPointArray.pop();
 
     return clayPointArray;
 }

@@ -1,14 +1,12 @@
-import {ClayPoint} from './clay-point';
-import {Vector3} from "three";
-import {Polyline} from "../three/three-poly-line";
 import {edgeUVConstraining} from "./clay-patterns";
-import ParallelTransportPolyline from "../three/parallel-transport-frames";
 
 export class ClayPatternCurve {
     clayPoints;
+    isClosed;
 
-    constructor(clayPoints) {
+    constructor(clayPoints, isClosed=true) {
         this.clayPoints = clayPoints;
+        this.isClosed = isClosed;
     }
 
     toNestedFloats() {
@@ -16,20 +14,6 @@ export class ClayPatternCurve {
         array.push(array[0]);
 
         return array;
-    }
-
-    toPolyline() {
-        let positions = [];
-
-        for (const pt of this.clayPoints) {
-            positions.push(pt.toVector3());
-        }
-
-        return new Polyline(positions);
-    }
-
-    toParallelTransport() {
-        return new ParallelTransportPolyline(this.clayPoints.map(pt => pt.toVector3()));
     }
 
     moveToHeight(height = 0.) {
@@ -55,48 +39,5 @@ export class ClayPatternCurve {
                 pt.set(patternFunction(pt.origin, parameters));
             }
         }
-    }
-
-    toThreePolyline() {
-        let positions = [];
-
-        for (const pt of this.clayPoints) {
-            positions.push(pt.toVector3());
-        }
-
-        return new Polyline(positions);
-    }
-}
-
-export function testClayCurve(scene = null) {
-    let pts = [
-        new ClayPoint(
-            new Vector3(.5, .5, 0),
-            new Vector3(1, 1, 0),
-        ),
-        new ClayPoint(
-            new Vector3(-.5, .5, 0),
-            new Vector3(-1, 1, 0),
-        ),
-        new ClayPoint(
-            new Vector3(-.5, -.5, 0),
-            new Vector3(-1, -1, 0),
-        ),
-        new ClayPoint(
-            new Vector3(.5, -.5, 0),
-            new Vector3(1, -1, 0),
-        ),
-    ];
-
-    const clayCurve = new ClayPatternCurve(pts);
-
-    if (scene) {
-        // console.log("is not null?");
-        // console.log(scene);
-
-
-
-    } else {
-        console.log("is null !!!");
     }
 }

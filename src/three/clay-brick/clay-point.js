@@ -1,5 +1,4 @@
 import {Vector2, Vector3} from "three";
-// import {Coordinate} from "jsts/org/locationtech/jts/geom";
 
 export class ClayPoint {
     origin;
@@ -27,14 +26,6 @@ export class ClayPoint {
             new Vector3().addScaledVector(this.direction, value)
         );
     }
-
-    // toCoordinate() {
-    //     return new Coordinate(
-    //         this.position.x,
-    //         this.position.y,
-    //         this.position.z
-    //     )
-    // }
 
     toVector3() {
         return new Vector3(this.position.x, this.position.z, -this.position.y);
