@@ -1,8 +1,7 @@
 import './App.css';
 import {Canvas} from "@react-three/fiber";
 import Box from "./Components/Box";
-import {Vector3} from "three";
-import Donut from "./Components/Donut";
+import ClayCurveGeo from "./Components/ClayCurveGeo";
 
 function App() {
   return (
@@ -13,15 +12,20 @@ function App() {
               <Box position={[-1.2, 0, 0]} />
               <Box position={[1.2, 0, 0]} />
           </Canvas>
-          <Canvas className="canvas2" style={{"position": "absolute"}}>
+          <Canvas
+              className="canvas2"
+              style={{"position": "absolute"}}
+              camera={{ fov: 100, near: 0.1, far: 1000, position: [0, 0, 5] }}
+          >
               <ambientLight />
               <pointLight position={[10, 10, 10]} />
               <Box position={[-1.8, 0, 0]} />
-              <Donut
-                  radius={2.}
-                  position={new Vector3(0,0,0)}
-                  thickness={1.}
-                  divisionsUV={{u:64,v:32}}
+              <ClayCurveGeo
+                  radius={1.5}
+                  bodyLength={2.}
+                  divisionLength={.2}
+                  thickness={.15}
+                  divisionsV={16}
                   uvGrid={{u:4,v:1}}
               />
           </Canvas>
