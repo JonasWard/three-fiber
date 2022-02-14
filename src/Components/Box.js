@@ -9,7 +9,7 @@ const Box = (props) => {
     const [hovered, setHover] = useState(false)
     const [active, setActive] = useState(false)
     // Subscribe this component to the render-loop, rotate the mesh every frame
-    useFrame((state, delta) => (mesh.current.rotation.x += 0.01))
+    // useFrame((state, delta) => (mesh.current.rotation.x += 0.01))
     // Return view, these are regular three.js elements expressed in JSX
     return (
         <mesh
@@ -24,7 +24,7 @@ const Box = (props) => {
                 setHover(true);
             }}
             onPointerOut={(event) => setHover(false)}>
-            <boxGeometry args={[1, 1, 1]} />
+            <boxGeometry args={[100, 100, 100]} />
             <meshLambertMaterial color={hovered ? 'hotpink' : 'orange'} />
         </mesh>
     )

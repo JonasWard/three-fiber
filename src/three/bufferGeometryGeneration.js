@@ -103,8 +103,6 @@ export const generateFramesFromClayCurve = (clayCurve, thickness, divisionsV, uv
     // 0. store positions
     const positions = clayCurve.clayPoints.map(pt => {return pt.position.clone()});
 
-    console.log(positions);
-
     // 1. construct directions & uVals
     const directions = [];
     const uVals = [0];
@@ -149,17 +147,30 @@ export const generateFramesFromClayCurve = (clayCurve, thickness, divisionsV, uv
 
     // 3. defining the start normal
     // assuming that that start vector will always be non-vertical
-    const normal0 = new Vector3(tangents[0].x, tangents[0].y, 0.).normalize();
-    normal0.set(-normal0.y, normal0.x, 0.);
+    let normal0;
+
+    if (clayCurve.isClosed) {
+        if (tangents[0].angleTo(tangents[tangents.length - 1]) > .01) {
+            normal0 = new Vector3().addVectors(tangents[0], tangents[tangents.length - 1]).normalize();
+        } else {
+            normal0 = new Vector3(-tangents[0].y, tangents[0].x, 0.).normalize();
+        }
+    } else {
+        normal0 = new Vector3(-tangents[0].y, tangents[0].x, 0.).normalize();
+    }
 
     // 4. construct (bi)Normals
     const normals = [normal0];
-    const biNormals = [new Vector3().crossVectors(tangents[0],normal0)];
+    const biNormals = [new Vector3().crossVectors(tangents[0],normal0).normalize()];
 
     for (let i = 1; i < positions.length; i++) {
         biNormals.push(normals[i-1].clone().cross(tangents[i]).normalize());
         normals.push(tangents[i].clone().cross(biNormals[i]).normalize());
     }
+
+    console.log(tangents);
+    console.log(normals);
+    console.log(biNormals);
 
     // 5. frame parameters
 

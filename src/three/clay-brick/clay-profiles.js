@@ -64,6 +64,8 @@ export const flatOval = (radius, bodyLength, divisionLength) => {
 
     console.log(clayPointArray);
     clayPointArray.pop();
+    clayPointArray.pop();
+    clayPointArray.pop();
 
     return clayPointArray;
 }
