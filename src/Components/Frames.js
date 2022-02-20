@@ -1,21 +1,37 @@
 import React, {useRef, useState} from 'react';
 import {useFrame} from '@react-three/fiber';
-import {constructBufferGeometryFromFrames, generateFramesFromClayPoints} from "../three/bufferGeometryGeneration";
+import {
+    generateFramesFromClayCurve,
+    visualiseFrames
+} from "../three/bufferGeometryGeneration";
 import {flatOval} from "../three/clay-brick/clay-profiles";
+import {Color, Object3D} from "three";
+import {ClayPatternCurve} from "../three/clay-brick/clay-pattern-curve";
+import {PATTERN_LIST} from "../three/clay-brick/clay-patterns";
 
-const ClayCurveGeo = (props) => {
+
+const FramesClayCurve = (props) => {
     const {radius, bodyLength, divisionLength, thickness, divisionsV, uvGrid} = props;
 
     const [hovered, setHover] = useState(true);
 
     const clayPoints = flatOval(radius, bodyLength, divisionLength);
-    const {frames, divisionsUV} = generateFramesFromClayPoints(clayPoints, thickness, divisionsV, uvGrid);
-    const {positions, normals, uvs} = constructBufferGeometryFromFrames(frames, divisionsUV, hovered);
+
+    const clayCurve = new ClayPatternCurve(clayPoints, false);
+
+    const {patternParameters, patternFunction} = PATTERN_LIST.sinWaveUVPattern;
+
+    const defaultPatternParameters = Object.fromEntries(Object.keys(patternParameters).map(key => {return [key, patternParameters[key].default]}));
+
+    clayCurve.applyPattern(patternFunction, defaultPatternParameters);
+    const {frames} = generateFramesFromClayCurve(clayCurve, thickness, divisionsV, uvGrid);
+
+    const {positions, normals, uvs} = visualiseFrames(frames, 5.);
+
+    console.log(positions, normals, uvs);
 
     const mesh = useRef()
     useFrame((state, delta) => (mesh.current.rotation.y += 0.02))
-
-    console.log(positions, normals, uvs);
 
     return (
         <mesh
@@ -36,4 +52,4 @@ const ClayCurveGeo = (props) => {
     )
 }
 
-export default ClayCurveGeo;
+export default FramesClayCurve;

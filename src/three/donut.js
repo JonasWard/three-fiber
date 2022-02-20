@@ -1,7 +1,6 @@
 import {Vector3} from "three";
 import {
     constructBetaUVs,
-    constructBufferGeometryFromFrames,
     framesFromPositionsNormalsStaticBiNormal
 } from "./bufferGeometryGeneration";
 

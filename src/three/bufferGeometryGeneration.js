@@ -97,7 +97,7 @@ export const framesFromPositionsNormalsBiNormals = (basePositions, normals, biNo
     return frames;
 }
 
-export const generateFramesFromClayCurve = (clayCurve, thickness, divisionsV, uvGrid) => {
+    export const generateFramesFromClayCurve = (clayCurve, thickness, divisionsV, uvGrid) => {
     const ptCount = (clayCurve.isClosed) ? clayCurve.clayPoints.length : clayCurve.clayPoints.length - 1;
 
     // 0. store positions
@@ -168,10 +168,6 @@ export const generateFramesFromClayCurve = (clayCurve, thickness, divisionsV, uv
         normals.push(tangents[i].clone().cross(biNormals[i]).normalize());
     }
 
-    console.log(tangents);
-    console.log(normals);
-    console.log(biNormals);
-
     // 5. frame parameters
 
     const divisionsUV = {
@@ -187,8 +183,13 @@ export const generateFramesFromClayCurve = (clayCurve, thickness, divisionsV, uv
     const {betaUVs, uvDeltas} = constructBetaUVs(divisionsUV, uvGrid, uvLengths);
 
     return {
-        frames: framesFromPositionsNormalsBiNormals(positions, normals, biNormals, uVals, thickness, betaUVs, uvDeltas),
-        divisionsUV: divisionsUV
+        populatedFrames: framesFromPositionsNormalsBiNormals(positions, normals, biNormals, uVals, thickness, betaUVs, uvDeltas),
+        divisionsUV: divisionsUV,
+        frames: {
+            positions: positions,
+            normals: normals,
+            biNormals: biNormals
+        }
     };
 }
 
@@ -218,8 +219,64 @@ export const generateFramesFromClayPoints = (clayPoints, thickness, divisionsV, 
     }
 
     return {
-        frames: framesFromPositionsNormalsStaticBiNormal(basePositions, normals, biNormal, uVals, thickness, betaUVs, uvDeltas),
-        divisionsUV: divisionsUV
+        populatedFrames: framesFromPositionsNormalsStaticBiNormal(basePositions, normals, biNormal, uVals, thickness, betaUVs, uvDeltas),
+        divisionsUV: divisionsUV,
+        frames: {
+            positions: basePositions,
+            normals: normals,
+            biNormals: [].fill(biNormal, 0, basePositions.length)
+        }
+    };
+}
+
+const squareFrame = (position, normal, biNormal, size = 10.0, uvArray = [], positionArray = [], normalArray = []) => {
+    const na = new Vector3().addScaledVector(normal, -size);
+    const nb = new Vector3().addScaledVector(normal, size);
+
+    const bNa = new Vector3().addScaledVector(biNormal, -size);
+    const bNb = new Vector3().addScaledVector(biNormal, size);
+
+    const nGlobal = new Vector3().crossVectors(normal, biNormal).normalize().toArray();
+
+    const v00 = new Vector3().addVectors(position, new Vector3().addVectors(na, bNa)).toArray();
+    const v01 = new Vector3().addVectors(position, new Vector3().addVectors(na, bNb)).toArray();
+    const v11 = new Vector3().addVectors(position, new Vector3().addVectors(nb, bNb)).toArray();
+    const v10 = new Vector3().addVectors(position, new Vector3().addVectors(nb, bNa)).toArray();
+
+    for (let i = 0; i < 6; i++) {
+        normalArray.push(...nGlobal);
+    }
+
+    uvArray.push(...[0,0]);
+    positionArray.push(...v00);
+    uvArray.push(...[1,1]);
+    positionArray.push(...v11);
+    uvArray.push(...[1,0]);
+    positionArray.push(...v10);
+
+    uvArray.push(...[0,0]);
+    positionArray.push(...v00);
+    uvArray.push(...[0,1]);
+    positionArray.push(...v01);
+    uvArray.push(...[1,1]);
+    positionArray.push(...v11);
+}
+
+export const visualiseFrames = (frames, size = 10.) => {
+    const {positions, normals, biNormals} = frames;
+
+    const uvFloats = [];
+    const positionsFloats = [];
+    const normalFloats = [];
+
+    positions.map((position, index) => {
+        squareFrame(position, normals[index], biNormals[index], size, uvFloats, positionsFloats);
+    })
+
+    return {
+        positions: new Float32Array(positionsFloats),
+        normals: new Float32Array(normalFloats),
+        uvs: new Float32Array(uvFloats)
     };
 }
 

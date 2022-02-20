@@ -9,21 +9,19 @@ const ClayCurveGeo = (props) => {
     const [hovered, setHover] = useState(true);
 
     const clayPoints = flatOval(radius, bodyLength, divisionLength);
-    const {frames, divisionsUV} = generateFramesFromClayPoints(clayPoints, thickness, divisionsV, uvGrid);
-    const {positions, normals, uvs} = constructBufferGeometryFromFrames(frames, divisionsUV, hovered);
+    const {populatedFrames, divisionsUV} = generateFramesFromClayPoints(clayPoints, thickness, divisionsV, uvGrid);
+    const {positions, normals, uvs} = constructBufferGeometryFromFrames(populatedFrames, divisionsUV, hovered);
 
     const mesh = useRef()
     useFrame((state, delta) => (mesh.current.rotation.y += 0.02))
 
-    console.log(positions, normals, uvs);
-
     return (
         <mesh
             ref={mesh}
-            onPointerOver={(event) => {
+            onPointerOver={() => {
                 setHover(true);
             }}
-            onPointerOut={(event) => setHover(false)}>
+            onPointerOut={() => setHover(false)}>
             >
             <bufferGeometry>
                 <bufferAttribute attachObject={['attributes', 'position']} count={positions.length / 3} array={positions} itemSize={3} />

@@ -1,5 +1,4 @@
 import React, {useRef, useState} from 'react';
-import {useFrame} from '@react-three/fiber';
 import {
     constructBufferGeometryFromFrames,
     generateFramesFromClayCurve
@@ -22,8 +21,8 @@ const ClayPatternCurveGeo = (props) => {
     const defaultPatternParameters = Object.fromEntries(Object.keys(patternParameters).map(key => {return [key, patternParameters[key].default]}));
 
     clayCurve.applyPattern(patternFunction, defaultPatternParameters);
-    const {frames, divisionsUV} = generateFramesFromClayCurve(clayCurve, thickness, divisionsV, uvGrid);
-    const {positions, normals, uvs} = constructBufferGeometryFromFrames(frames, divisionsUV, clayCurve.isClosed);
+    const {populatedFrames, divisionsUV} = generateFramesFromClayCurve(clayCurve, thickness, divisionsV, uvGrid);
+    const {positions, normals, uvs} = constructBufferGeometryFromFrames(populatedFrames, divisionsUV, clayCurve.isClosed);
 
     const mesh = useRef()
     // useFrame((state, delta) => (mesh.current.rotation.y += 0.01));
@@ -31,10 +30,10 @@ const ClayPatternCurveGeo = (props) => {
     return (
         <mesh
             ref={mesh}
-            onPointerOver={(event) => {
+            onPointerOver={() => {
                 setHover(true);
             }}
-            onPointerOut={(event) => setHover(false)}>
+            onPointerOut={() => setHover(false)}>
             >
             <bufferGeometry>
                 <bufferAttribute attachObject={['attributes', 'position']} count={positions.length / 3} array={positions} itemSize={3} />
