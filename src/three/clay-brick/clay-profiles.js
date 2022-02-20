@@ -62,10 +62,5 @@ export const flatOval = (radius, bodyLength, divisionLength) => {
     ));
     clayPointArray.push(...arcLeftTop);
 
-    console.log(clayPointArray);
-    clayPointArray.pop();
-    clayPointArray.pop();
-    clayPointArray.pop();
-
     return clayPointArray;
 }

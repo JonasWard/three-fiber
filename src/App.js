@@ -3,6 +3,7 @@ import {Canvas} from "@react-three/fiber";
 import {OrbitControls} from "@react-three/drei";
 import Box from "./Components/Box";
 import FramesClayCurve from "./Components/Frames";
+import ClayPatternCurveGeo from "./Components/ClayPatternCurveGeo";
 
 function App() {
   return (
@@ -29,7 +30,7 @@ function App() {
               <pointLight position={[10, 10, 10]} />
               <Box position={[-1.2, 0, 0]} />
               <Box position={[1.2, 0, 0]} />
-              <FramesClayCurve
+              <ClayPatternCurveGeo
                   radius={150}
                   bodyLength={100.}
                   divisionLength={50.}
