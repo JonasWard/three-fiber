@@ -9,13 +9,6 @@ export class ClayPatternCurve {
         this.isClosed = isClosed;
     }
 
-    toNestedFloats() {
-        const array = [this.clayPoints.map(p => {return [p.position.x, p.position.y]})];
-        array.push(array[0]);
-
-        return array;
-    }
-
     moveToHeight(height = 0.) {
         for (const pt of this.clayPoints) {
             pt.z = height;

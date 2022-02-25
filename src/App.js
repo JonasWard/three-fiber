@@ -15,10 +15,6 @@ function App() {
               <Box position={[-120, 0, 0]} />
               <Box position={[120, 0, 0]} />
           </Canvas>
-          {/*<Canvas className="canvas2"*/}
-          {/*    camera={{ fov: 50, near: 0.1, far: 2000, position: [0, 0, 10] }}>*/}
-          {/*    */}
-          {/*</Canvas>*/}
           <Canvas
               className="canvas2"
               style={{"position": "absolute"}}
