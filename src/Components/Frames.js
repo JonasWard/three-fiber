@@ -5,7 +5,6 @@ import {
     visualiseFrames
 } from "../three/bufferGeometryGeneration";
 import {flatOval} from "../three/clay-brick/clay-profiles";
-import {Color, Object3D} from "three";
 import {ClayPatternCurve} from "../three/clay-brick/clay-pattern-curve";
 import {PATTERN_LIST} from "../three/clay-brick/clay-patterns";
 

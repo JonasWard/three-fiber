@@ -161,7 +161,7 @@ export const framesFromPositionsNormalsBiNormals = (basePositions, normals, biNo
 
     // 4. construct (bi)Normals
     const normals = [normal0];
-    const biNormals = [new Vector3().crossVectors(tangents[0],normal0).normalize()];
+    const biNormals = [new Vector3().crossVectors(normal0,tangents[0]).normalize()];
 
     for (let i = 1; i < positions.length; i++) {
         biNormals.push(normals[i-1].clone().cross(tangents[i]).normalize());

@@ -8,11 +8,11 @@ import {ClayPatternCurve} from "../three/clay-brick/clay-pattern-curve";
 import {PATTERN_LIST} from "../three/clay-brick/clay-patterns";
 
 const ClayPatternCurveGeo = (props) => {
-    const {radius, bodyLength, divisionLength, thickness, divisionsV, uvGrid} = props;
+    const {radius, bodyLength, divisionLength, thickness, divisionsV, uvGrid, height} = props;
 
     const [hovered, setHover] = useState(true);
 
-    const clayPoints = flatOval(radius, bodyLength, divisionLength);
+    const clayPoints = flatOval(radius, bodyLength, divisionLength, height);
 
     const clayCurve = new ClayPatternCurve(clayPoints, false);
 
@@ -24,12 +24,12 @@ const ClayPatternCurveGeo = (props) => {
     const {populatedFrames, divisionsUV} = generateFramesFromClayCurve(clayCurve, thickness, divisionsV, uvGrid);
     const {positions, normals, uvs} = constructBufferGeometryFromFrames(populatedFrames, divisionsUV, clayCurve.isClosed);
 
-    const mesh = useRef()
-    // useFrame((state, delta) => (mesh.current.rotation.y += 0.01));
+    // const mesh = useRef()
+    // // useFrame((state, delta) => (mesh.current.rotation.y += 0.01));
 
     return (
         <mesh
-            ref={mesh}
+            // ref={mesh}
             onPointerOver={() => {
                 setHover(true);
             }}

@@ -35,9 +35,9 @@ export const lerpClayPoints = (startPoint, endPoint, divisions) => {
     return clayPoints;
 }
 
-export const flatOval = (radius, bodyLength, divisionLength) => {
-    const lV = new Vector3(-bodyLength * .5, 0., 0.);
-    const rV = new Vector3(bodyLength * .5, 0., 0.);
+export const flatOval = (radius, bodyLength, divisionLength, height) => {
+    const lV = new Vector3(-bodyLength * .5, 0., height);
+    const rV = new Vector3(bodyLength * .5, 0., height);
 
     const hPi = Math.PI * .5;
     const pi = Math.PI;
@@ -61,11 +61,6 @@ export const flatOval = (radius, bodyLength, divisionLength) => {
         arcLeftTop[0], Math.ceil(bodyLength / divisionLength)
     ));
     clayPointArray.push(...arcLeftTop);
-
-    console.log(clayPointArray);
-    clayPointArray.pop();
-    clayPointArray.pop();
-    clayPointArray.pop();
 
     return clayPointArray;
 }
