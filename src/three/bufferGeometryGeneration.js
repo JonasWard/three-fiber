@@ -153,15 +153,15 @@ export const framesFromPositionsNormalsBiNormals = (basePositions, normals, biNo
         if (tangents[0].angleTo(tangents[tangents.length - 1]) > .01) {
             normal0 = new Vector3().addVectors(tangents[0], tangents[tangents.length - 1]).normalize();
         } else {
-            normal0 = new Vector3(-tangents[0].y, tangents[0].x, 0.).normalize();
+            normal0 = new Vector3(tangents[0].y, tangents[0].x, 0.).normalize();
         }
     } else {
-        normal0 = new Vector3(-tangents[0].y, tangents[0].x, 0.).normalize();
+        normal0 = new Vector3(tangents[0].y, tangents[0].x, 0.).normalize();
     }
 
     // 4. construct (bi)Normals
     const normals = [normal0];
-    const biNormals = [new Vector3().crossVectors(normal0,tangents[0]).normalize()];
+    const biNormals = [new Vector3().crossVectors(normal0, tangents[0]).normalize()];
 
     for (let i = 1; i < positions.length; i++) {
         biNormals.push(normals[i-1].clone().cross(tangents[i]).normalize());
@@ -270,7 +270,7 @@ export const visualiseFrames = (frames, size = 10.) => {
     const normalFloats = [];
 
     positions.map((position, index) => {
-        squareFrame(position, normals[index], biNormals[index], size, uvFloats, positionsFloats);
+        squareFrame(position, normals[index], biNormals[index], size, uvFloats, positionsFloats, normalFloats);
     })
 
     return {

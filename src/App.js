@@ -2,8 +2,8 @@ import './App.css';
 import {Canvas} from "@react-three/fiber";
 import {OrbitControls} from "@react-three/drei";
 import Box from "./Components/Box";
+import FramesClayCurve from "./Components/Frames";
 import ClayPatternCurveGeo from "./Components/ClayPatternCurveGeo";
-import SimpleBrick from "./Components/SimpleBrick";
 
 function App() {
   return (
